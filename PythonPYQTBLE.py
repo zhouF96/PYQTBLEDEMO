@@ -7,26 +7,19 @@ from PyQt5 import QtBluetooth
 '''
 class Deviceinfo(QtCore.QObject):
     devicechanged = PyQt5.QtCore.pyqtSignal()
-
     def __init__(self):
         super().__init__()
         self.m_device = QtBluetooth.QBluetoothDeviceInfo()
         self.devicechanged.connect(self.emitDeviceChanged)
-
     def getName(self):
         return self.m_device.name()
-
     def getAddress(self):
         return self.m_device.address().toString()
-
-    
     def emitDeviceChanged(self):
         pass
-
     def setDevice(self, device):
         self.m_device = device
         self.devicechanged.emit()
-
 '''
 
 
@@ -129,9 +122,10 @@ class BleInterface(QtCore.QObject):
 
     def onScanFinished(self):
         if len(self.m_devices) == 0:
-            print("Scan finished")
+            print("Can't find any BLE device")
+        print("Scan finished!")
         self.set_CurrentDevice(0)
-        self.connectCurrentDevice();
+        self.connectCurrentDevice()
     
     def onDeviceScanError(self,error):
         if error == QtBluetooth.QBluetoothDeviceDiscoveryAgent.PoweredOffError:
